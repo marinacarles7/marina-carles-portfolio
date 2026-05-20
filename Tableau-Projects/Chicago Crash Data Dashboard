@@ -1,0 +1,17 @@
+# Chicago Crash Data Dashboard
+
+Interactive Tableau dashboard analyzing fatal crash patterns in Chicago through trend analysis, time-of-day distributions, and geographic visualization.
+
+## Dashboard Features
+- Fatal crash trends over time
+- Time-of-day crash analysis
+- Geographic mapping of crash locations
+- Interactive filters and dashboard exploration
+
+## Tools Used
+- Tableau
+- Excel
+- Chicago Data Portal datasets
+
+## Objective
+The goal of this project was to use data visualization techniques to identify patterns and communicate insights related to traffic safety and crash trends in Chicago.
