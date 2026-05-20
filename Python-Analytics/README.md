@@ -18,5 +18,3 @@ These labs and projects focus on applying data analysis, visualization, statisti
 - Google Colab
 - Pandas
 - NumPy
-- Matplotlib
-- Scikit-learn
