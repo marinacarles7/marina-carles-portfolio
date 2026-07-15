@@ -1,0 +1,152 @@
+-- Amazon E-Commerce Analytics
+-- Google BigQuery SQL
+-- Table: sql-502008.ecommerceamzn.orders
+
+-- ============================================================
+-- Q1. At what shipping time (in days) does return rate spike?
+-- ============================================================
+SELECT
+  shipping_time_days,
+  COUNT(*) AS total_orders,
+  ROUND(COUNTIF(is_returned = TRUE) / COUNT(*) * 100, 2) AS return_rate_pct
+FROM `sql-502008.ecommerceamzn.orders`
+GROUP BY shipping_time_days
+ORDER BY shipping_time_days ASC;
+
+
+-- ============================================================
+-- Q2. Most purchased product and highest return rate product
+-- ============================================================
+SELECT
+  product_id,
+  COUNT(*) AS total_purchases,
+  COUNTIF(is_returned = TRUE) AS total_returned,
+  ROUND(COUNTIF(is_returned = TRUE) / COUNT(*) * 100, 2) AS return_rate_pct
+FROM `sql-502008.ecommerceamzn.orders`
+GROUP BY product_id
+ORDER BY total_purchases DESC
+LIMIT 10;
+
+
+-- ============================================================
+-- Q3. Do products from low-rated sellers get returned more?
+-- ============================================================
+SELECT
+  CASE WHEN seller_rating < 3 THEN 'Below 3' ELSE 'Above 3' END AS seller_rating_group,
+  COUNT(*) AS total_orders,
+  ROUND(COUNTIF(is_returned = TRUE) / COUNT(*) * 100, 2) AS return_rate_pct
+FROM `sql-502008.ecommerceamzn.orders`
+GROUP BY seller_rating_group;
+
+
+-- ============================================================
+-- Q4. Do low customer-rated products get returned more?
+-- ============================================================
+SELECT
+  CASE WHEN rating < 3 THEN 'Below 3' ELSE 'Above 3' END AS customer_rating_group,
+  COUNT(*) AS total_orders,
+  ROUND(COUNTIF(is_returned = TRUE) / COUNT(*) * 100, 2) AS return_rate_pct
+FROM `sql-502008.ecommerceamzn.orders`
+GROUP BY customer_rating_group;
+
+
+-- ============================================================
+-- Q5. Which product category has the highest return rate?
+-- ============================================================
+SELECT
+  category,
+  COUNT(*) AS total_orders,
+  ROUND(COUNTIF(is_returned = TRUE) / COUNT(*) * 100, 2) AS return_rate_pct
+FROM `sql-502008.ecommerceamzn.orders`
+GROUP BY category
+ORDER BY return_rate_pct DESC;
+
+
+-- ============================================================
+-- Q6. Which product category drives the most revenue?
+-- ============================================================
+SELECT
+  category,
+  ROUND(SUM(final_price), 2) AS total_revenue,
+  COUNT(*) AS total_orders
+FROM `sql-502008.ecommerceamzn.orders`
+GROUP BY category
+ORDER BY total_revenue DESC;
+
+
+-- ============================================================
+-- Q7. Which cities have the most purchases and highest return rate?
+-- ============================================================
+SELECT
+  location,
+  COUNT(*) AS total_purchases,
+  ROUND(COUNTIF(is_returned = TRUE) / COUNT(*) * 100, 2) AS return_rate_pct
+FROM `sql-502008.ecommerceamzn.orders`
+GROUP BY location
+ORDER BY total_purchases DESC;
+
+
+-- ============================================================
+-- Q8. Does higher discount correlate with higher return rate?
+-- ============================================================
+SELECT
+  CASE
+    WHEN discount < 20 THEN '0-20%'
+    WHEN discount < 40 THEN '20-40%'
+    ELSE '40%+'
+  END AS discount_bucket,
+  COUNT(*) AS total_orders,
+  ROUND(COUNTIF(is_returned = TRUE) / COUNT(*) * 100, 2) AS return_rate_pct
+FROM `sql-502008.ecommerceamzn.orders`
+GROUP BY discount_bucket
+ORDER BY discount_bucket ASC;
+
+
+-- ============================================================
+-- Q9. Which payment method has the highest return rate?
+-- ============================================================
+SELECT
+  payment_method,
+  COUNT(*) AS total_orders,
+  ROUND(COUNTIF(is_returned = TRUE) / COUNT(*) * 100, 2) AS return_rate_pct
+FROM `sql-502008.ecommerceamzn.orders`
+GROUP BY payment_method
+ORDER BY return_rate_pct DESC;
+
+
+-- ============================================================
+-- Q10. Which device drives the most purchases and highest spend?
+-- ============================================================
+SELECT
+  device,
+  COUNT(*) AS total_purchases,
+  ROUND(SUM(final_price), 2) AS total_spend
+FROM `sql-502008.ecommerceamzn.orders`
+GROUP BY device
+ORDER BY total_purchases DESC;
+
+
+-- ============================================================
+-- Q11. Are delayed deliveries more likely to result in returns?
+-- ============================================================
+SELECT
+  delivery_status,
+  COUNT(*) AS total_orders,
+  ROUND(COUNTIF(is_returned = TRUE) / COUNT(*) * 100, 2) AS return_rate_pct
+FROM `sql-502008.ecommerceamzn.orders`
+GROUP BY delivery_status
+ORDER BY return_rate_pct DESC;
+
+
+-- ============================================================
+-- Q12. Which brand has the worst gap between seller and customer rating?
+-- ============================================================
+SELECT
+  brand,
+  ROUND(AVG(seller_rating), 2) AS avg_seller_rating,
+  ROUND(AVG(rating), 2) AS avg_customer_rating,
+  ROUND(AVG(seller_rating) - AVG(rating), 2) AS rating_gap
+FROM `sql-502008.ecommerceamzn.orders`
+GROUP BY brand
+ORDER BY rating_gap DESC
+LIMIT 10;
