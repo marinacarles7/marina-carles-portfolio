@@ -91,10 +91,7 @@ All brands show a small negative gap (customer ratings slightly exceed seller ra
 
 ---
 
-## SQL Queries
-All queries are in the `/queries` folder, organized by question number.
 
----
 
 ## Tools Used
 - Google BigQuery (SQL)
