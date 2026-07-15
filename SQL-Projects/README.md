@@ -3,7 +3,7 @@
 ## Overview
 This project analyzes 1 million Amazon e-commerce transactions from India to uncover patterns in product returns, revenue, customer behavior, and delivery performance. All analysis was done using SQL in Google BigQuery.
 
-**Dataset:** Amazon E-Commerce 1M Dataset (Kaggle)  
+**Dataset:** Amazon E-Commerce 1M Dataset (Kaggle): https://www.kaggle.com/datasets/sharmajicoder/amazon-e-commerce
 **Tool:** Google BigQuery  
 **Skills demonstrated:** Aggregations, GROUP BY, COUNTIF, CASE WHEN, SUM, AVG, bucketing, business insight write-up
 
